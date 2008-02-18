@@ -1,7 +1,7 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.5
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: LGPL
 Group: Development/Tools
 URL: http://packages.debian.org/unstable/utils/fakechroot.html
@@ -47,6 +47,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/fakechroot.1.gz
 
 %changelog
+* Mon Feb 18 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 2.5-13
+- Autorebuild for GCC 4.3
+
 * Mon Jan  1 2007 Axel Thimm <Axel.Thimm@ATrpms.net> - 2.5-12
 - Remove executable bits from scripts in documentation.
 
