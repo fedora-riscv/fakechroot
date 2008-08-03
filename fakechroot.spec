@@ -1,8 +1,8 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
-Version: 2.5
-Release: 12%{?dist}
-License: LGPL
+Version: 2.8
+Release: 13%{?dist}
+License: LGPLv2+
 Group: Development/Tools
 URL: http://packages.debian.org/unstable/utils/fakechroot.html
 Source0: http://ftp.debian.org/debian/pool/main/f/fakechroot/%{name}_%{version}.orig.tar.gz
@@ -47,6 +47,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/fakechroot.1.gz
 
 %changelog
+* Sun Aug  3 2008 Axel Thimm <Axel.Thimm@ATrpms.net> - 2.8-13
+- Update to 2.8.
+
 * Mon Jan  1 2007 Axel Thimm <Axel.Thimm@ATrpms.net> - 2.5-12
 - Remove executable bits from scripts in documentation.
 
