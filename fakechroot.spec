@@ -1,7 +1,7 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.8
-Release: 13%{?dist}
+Release: 14%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://packages.debian.org/unstable/utils/fakechroot.html
@@ -30,8 +30,14 @@ make
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
-%check || :
-#currently broken: No rule to make target `t.pwd'
+%check
+#currently broken (reported upstream):
+#cp: cannot stat `/bin/busybox': No such file or directory
+#cp: cannot stat `/bin/csh': No such file or directory
+#...
+#FAIL: t.echoarg
+#==================================
+#1 of 1 tests failed
 #make check
 
 %clean
@@ -47,6 +53,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/fakechroot.1.gz
 
 %changelog
+* Sun Aug 24 2008 Axel Thimm <Axel.Thimm@ATrpms.net> - 2.8-14
+- %%check || : does not work anymore.
+
 * Sun Aug  3 2008 Axel Thimm <Axel.Thimm@ATrpms.net> - 2.8-13
 - Update to 2.8.
 
