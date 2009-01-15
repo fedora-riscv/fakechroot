@@ -1,10 +1,10 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.8
-Release: 15%{?dist}
+Release: 16%{?dist}
 License: LGPLv2+
 Group: Development/Tools
-URL: http://packages.debian.org/unstable/utils/fakechroot.html
+URL: http://fakechroot.alioth.debian.org/
 Source0: http://ftp.debian.org/debian/pool/main/f/fakechroot/%{name}_%{version}.orig.tar.gz
 Patch0: fakechroot-2.8-initsocketlen.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -55,6 +55,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/fakechroot.1.gz
 
 %changelog
+* Thu Jan 15 2009 Rakesh Pandit <rakesh@fedoraproject.org> 2.8-16
+- Fixed URL
+
 * Sun Oct  5 2008 Axel Thimm <Axel.Thimm@ATrpms.net> - 2.8-15
 - Fix getpeername/getsockname socklen initialization.
 
