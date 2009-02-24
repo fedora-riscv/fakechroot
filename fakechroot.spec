@@ -1,7 +1,7 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.8
-Release: 16%{?dist}
+Release: 17%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://fakechroot.alioth.debian.org/
@@ -55,6 +55,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/fakechroot.1.gz
 
 %changelog
+* Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.8-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Thu Jan 15 2009 Rakesh Pandit <rakesh@fedoraproject.org> 2.8-16
 - Fixed URL
 
