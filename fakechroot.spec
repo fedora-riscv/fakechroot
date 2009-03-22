@@ -1,13 +1,14 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.8
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://fakechroot.alioth.debian.org/
 Source0: http://ftp.debian.org/debian/pool/main/f/fakechroot/%{name}_%{version}.orig.tar.gz
 Patch0: fakechroot-2.8-initsocketlen.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Requires: fakechroot-libs = %{version}-%{release}
 
 %description
 fakechroot runs a command in an environment were is additionally
@@ -15,6 +16,13 @@ possible to use the chroot(8) call without root privileges. This is
 useful for allowing users to create their own chrooted environment
 with possibility to install another packages without need for root
 privileges.
+
+%package libs
+Summary: Gives a fake chroot environment (libraries)
+Group: Development/Tools
+
+%description libs
+This package contains the libraries required by %{name}.
 
 %prep
 %setup -q
@@ -49,14 +57,16 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc LICENSE scripts/ldd.fake scripts/restoremode.sh scripts/savemode.sh
 %{_bindir}/fakechroot
+%{_mandir}/man1/fakechroot.1.gz
+
+%files libs
 %dir %{_libdir}/fakechroot
 %exclude %{_libdir}/fakechroot/libfakechroot.la
 %{_libdir}/fakechroot/libfakechroot.so
-%{_mandir}/man1/fakechroot.1.gz
 
 %changelog
-* Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.8-17
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+* Wed Mar 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.8-18
+- Create a fakeroot-libs subpackage so that the package is multilib aware.
 
 * Thu Jan 15 2009 Rakesh Pandit <rakesh@fedoraproject.org> 2.8-16
 - Fixed URL
