@@ -1,12 +1,11 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
-Version: 2.8
-Release: 18%{?dist}
+Version: 2.9
+Release: 19%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://fakechroot.alioth.debian.org/
 Source0: http://ftp.debian.org/debian/pool/main/f/fakechroot/%{name}_%{version}.orig.tar.gz
-Patch0: fakechroot-2.8-initsocketlen.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires: fakechroot-libs = %{version}-%{release}
 
@@ -26,9 +25,6 @@ This package contains the libraries required by %{name}.
 
 %prep
 %setup -q
-%patch0 -p1 -b .missinginit
-perl -pi -e's,int readlink,ssize_t readlink,' src/libfakechroot.c
-chmod -x scripts/ldd.fake scripts/restoremode.sh scripts/savemode.sh
 
 %build
 %configure \
@@ -48,7 +44,7 @@ make install DESTDIR=%{buildroot}
 #FAIL: t.echoarg
 #==================================
 #1 of 1 tests failed
-#make check
+make check
 
 %clean
 rm -rf %{buildroot}
@@ -65,6 +61,14 @@ rm -rf %{buildroot}
 %{_libdir}/fakechroot/libfakechroot.so
 
 %changelog
+* Tue Apr 14 2009 Axel Thimm <Axel.Thimm@ATrpms.net> - 2.9-19
+- Update to 2.9.
+- Removed fakechroot-2.8-initsocketlen.patch (upstream now).
+- Removed int->ssize_t readlink type change (upstream testing for type
+  now).
+- Removed permission fix for scripts/ldd.fake scripts/restoremode.sh
+  scripts/savemode.sh (fixed upstream).
+
 * Wed Mar 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.8-18
 - Create a fakeroot-libs subpackage so that the package is multilib aware.
 
