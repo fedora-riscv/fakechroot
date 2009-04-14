@@ -1,13 +1,19 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.9
-Release: 19%{?dist}
+Release: 20%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://fakechroot.alioth.debian.org/
 Source0: http://ftp.debian.org/debian/pool/main/f/fakechroot/%{name}_%{version}.orig.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires: fakechroot-libs = %{version}-%{release}
+
+# Required for patch0:
+BuildRequires: autoconf, automake, libtool
+
+# Fix build problems with recent glibc.  Sent upstream 20090414.
+Patch0: fakechroot-scandir.patch
 
 %description
 fakechroot runs a command in an environment were is additionally
@@ -26,6 +32,11 @@ This package contains the libraries required by %{name}.
 %prep
 %setup -q
 
+%patch0 -p0
+
+# Patch0 updates autoconf, so rerun this:
+./autogen.sh
+
 %build
 %configure \
   --disable-dependency-tracking \
@@ -37,13 +48,6 @@ rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
 %check
-#currently broken (reported upstream):
-#cp: cannot stat `/bin/busybox': No such file or directory
-#cp: cannot stat `/bin/csh': No such file or directory
-#...
-#FAIL: t.echoarg
-#==================================
-#1 of 1 tests failed
 make check
 
 %clean
@@ -61,6 +65,9 @@ rm -rf %{buildroot}
 %{_libdir}/fakechroot/libfakechroot.so
 
 %changelog
+* Tue Apr 14 2009 Richard W.M. Jones <rjones@redhat.com> - 2.9-20
+- Add fakechroot-scandir.patch to fix builds on Rawhide.
+
 * Tue Apr 14 2009 Axel Thimm <Axel.Thimm@ATrpms.net> - 2.9-19
 - Update to 2.9.
 - Removed fakechroot-2.8-initsocketlen.patch (upstream now).
