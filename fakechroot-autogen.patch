@@ -1,0 +1,15 @@
+--- fakechroot-2.9.orig/autogen.sh	2009-03-19 14:43:19.000000000 +0000
++++ fakechroot-2.9/autogen.sh	2009-05-06 12:33:20.000000000 +0100
+@@ -13,10 +13,10 @@
+     rm -f depcomp install-sh libtool ltmain.sh missing stamp-h1
+     rm -rf autom4te.cache
+ 
+-    aclocal-${automake_version} "$@"
++    aclocal "$@"
+     autoheader
+     libtoolize --force --copy
+-    automake-${automake_version} --add-missing --copy
++    automake --add-missing --copy
+     autoconf
+ 
+     rm -rf autom4te.cache

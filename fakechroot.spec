@@ -1,7 +1,7 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.9
-Release: 22%{?dist}
+Release: 23%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://fakechroot.alioth.debian.org/
@@ -18,6 +18,9 @@ Patch0: fakechroot-scandir.patch
 # Add FAKECHROOT_CMD_SUBST feature.
 # Sent upstream 20090413.  Accepted upstream 20090418.
 Patch1: fakechroot-cmd-subst.patch
+
+# Patch to version of aclocal/automake.
+Patch2: fakechroot-autogen.patch
 
 %description
 fakechroot runs a command in an environment were is additionally
@@ -38,6 +41,7 @@ This package contains the libraries required by %{name}.
 
 %patch0 -p0
 %patch1 -p0
+%patch2 -p1
 
 # Patch0 updates autoconf, so rerun this:
 ./autogen.sh
@@ -70,6 +74,9 @@ rm -rf %{buildroot}
 %{_libdir}/fakechroot/libfakechroot.so
 
 %changelog
+* Mon May 11 2009 Richard W.M. Jones <rjones@redhat.com> - 2.9-23
+- Patch autogen to not depend on specific aclocal/automake version.
+
 * Mon May 11 2009 Richard W.M. Jones <rjones@redhat.com> - 2.9-22
 - Backport newest fakechroot 2.9 from Rawhide.
 
