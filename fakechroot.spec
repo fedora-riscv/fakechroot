@@ -1,12 +1,23 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
-Version: 2.5
-Release: 12%{?dist}.1
-License: LGPL
+Version: 2.9
+Release: 22%{?dist}
+License: LGPLv2+
 Group: Development/Tools
-URL: http://packages.debian.org/unstable/utils/fakechroot.html
+URL: http://fakechroot.alioth.debian.org/
 Source0: http://ftp.debian.org/debian/pool/main/f/fakechroot/%{name}_%{version}.orig.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Requires: fakechroot-libs = %{version}-%{release}
+
+# Required for patch0:
+BuildRequires: autoconf, automake, libtool
+
+# Fix build problems with recent glibc.  Sent upstream 20090414.
+Patch0: fakechroot-scandir.patch
+
+# Add FAKECHROOT_CMD_SUBST feature.
+# Sent upstream 20090413.  Accepted upstream 20090418.
+Patch1: fakechroot-cmd-subst.patch
 
 %description
 fakechroot runs a command in an environment were is additionally
@@ -15,10 +26,21 @@ useful for allowing users to create their own chrooted environment
 with possibility to install another packages without need for root
 privileges.
 
+%package libs
+Summary: Gives a fake chroot environment (libraries)
+Group: Development/Tools
+
+%description libs
+This package contains the libraries required by %{name}.
+
 %prep
 %setup -q
-perl -pi -e's,int readlink,ssize_t readlink,' src/libfakechroot.c
-chmod -x scripts/ldd.fake scripts/restoremode.sh scripts/savemode.sh
+
+%patch0 -p0
+%patch1 -p0
+
+# Patch0 updates autoconf, so rerun this:
+./autogen.sh
 
 %build
 %configure \
@@ -30,8 +52,7 @@ make
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
-%check || :
-#currently broken: No rule to make target `t.pwd'
+%check
 #make check
 
 %clean
@@ -41,12 +62,17 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc LICENSE scripts/ldd.fake scripts/restoremode.sh scripts/savemode.sh
 %{_bindir}/fakechroot
+%{_mandir}/man1/fakechroot.1.gz
+
+%files libs
 %dir %{_libdir}/fakechroot
 %exclude %{_libdir}/fakechroot/libfakechroot.la
 %{_libdir}/fakechroot/libfakechroot.so
-%{_mandir}/man1/fakechroot.1.gz
 
 %changelog
+* Mon May 11 2009 Richard W.M. Jones <rjones@redhat.com> - 2.9-22
+- Backport newest fakechroot 2.9 from Rawhide.
+
 * Sun May 06 2007 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info>
 - rebuilt for RHEL5 final
 
