@@ -1,7 +1,7 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.9
-Release: 22%{?dist}
+Release: 23%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://fakechroot.alioth.debian.org/
@@ -10,7 +10,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires: fakechroot-libs = %{version}-%{release}
 
 # Required for patch0:
-BuildRequires: autoconf, automake, libtool
+BuildRequires: autoconf, automake >= 1.10, libtool
 
 # Fix build problems with recent glibc.  Sent upstream 20090414.
 Patch0: fakechroot-scandir.patch
@@ -18,6 +18,11 @@ Patch0: fakechroot-scandir.patch
 # Add FAKECHROOT_CMD_SUBST feature.
 # Sent upstream 20090413.  Accepted upstream 20090418.
 Patch1: fakechroot-cmd-subst.patch
+
+# autogen script depends on a specific automake version, for no
+# real reason AFAICT.  This means the package breaks everytime
+# a new version of automake is released. - RWMJ.
+Patch2: fakechroot-no-automake-version.patch
 
 %description
 fakechroot runs a command in an environment were is additionally
@@ -38,6 +43,7 @@ This package contains the libraries required by %{name}.
 
 %patch0 -p0
 %patch1 -p0
+%patch2 -p1
 
 # Patch0 updates autoconf, so rerun this:
 ./autogen.sh
@@ -70,6 +76,9 @@ rm -rf %{buildroot}
 %{_libdir}/fakechroot/libfakechroot.so
 
 %changelog
+* Fri Jun 12 2009 Richard W.M. Jones <rjones@redhat.com> - 2.9-23
+- Added patch to remove test for specific version of automake.
+
 * Sat Apr 18 2009 Richard W.M. Jones <rjones@redhat.com> - 2.9-22
 - FAKECHROOT_CMD_SUBST patch has now been accepted upstream.
 
