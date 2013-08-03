@@ -1,7 +1,7 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.9
-Release: 29%{?dist}
+Release: 30%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://fakechroot.alioth.debian.org/
@@ -78,6 +78,9 @@ rm -rf %{buildroot}
 %{_libdir}/fakechroot/libfakechroot.so
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.9-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Mon Feb 25 2013 Ralf Corsépius <corsepiu@fedoraproject.org> - 2.9-29
 - Add BR: /usr/bin/pod2man (Fix FTBFS #913997).
 
