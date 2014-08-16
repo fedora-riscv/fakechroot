@@ -1,7 +1,7 @@
 Summary: Gives a fake chroot environment
 Name: fakechroot
 Version: 2.9
-Release: 31%{?dist}
+Release: 32%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://fakechroot.alioth.debian.org/
@@ -78,6 +78,9 @@ rm -rf %{buildroot}
 %{_libdir}/fakechroot/libfakechroot.so
 
 %changelog
+* Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.9-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.9-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
