@@ -1,30 +1,16 @@
-Summary: Gives a fake chroot environment
-Name: fakechroot
-Version: 2.9
-Release: 32%{?dist}
-License: LGPLv2+
-Group: Development/Tools
-URL: http://fakechroot.alioth.debian.org/
-Source0: http://ftp.debian.org/debian/pool/main/f/fakechroot/%{name}_%{version}.orig.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Requires: fakechroot-libs = %{version}-%{release}
-
-# Required by ./makeman.sh
-BuildRequires: /usr/bin/pod2man
-# Required for patch0:
-BuildRequires: autoconf, automake >= 1.10, libtool
-
-# Fix build problems with recent glibc.  Sent upstream 20090414.
-Patch0: fakechroot-scandir.patch
-
-# Add FAKECHROOT_CMD_SUBST feature.
-# Sent upstream 20090413.  Accepted upstream 20090418.
-Patch1: fakechroot-cmd-subst.patch
-
-# autogen script depends on a specific automake version, for no
-# real reason AFAICT.  This means the package breaks everytime
-# a new version of automake is released. - RWMJ.
-Patch2: fakechroot-no-automake-version.patch
+Name:           fakechroot
+Version:        2.17.2
+Release:        1%{?dist}
+Summary:        Gives a fake chroot environment
+License:        LGPLv2+
+URL:            https://github.com/dex4er/fakechroot
+Source0:        https://github.com/dex4er/fakechroot/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Patch0:         0001-Patch-to-incorporate-with-new-GLIBC-cleaner-style.patch
+Requires:       fakechroot-libs%{?_isa} = %{version}-%{release}
+# Required for manpage
+BuildRequires:  /usr/bin/pod2man
+# ldd.fakechroot
+Requires:       /usr/bin/objdump
 
 %description
 fakechroot runs a command in an environment were is additionally
@@ -33,44 +19,41 @@ useful for allowing users to create their own chrooted environment
 with possibility to install another packages without need for root
 privileges.
 
-%package libs
-Summary: Gives a fake chroot environment (libraries)
-Group: Development/Tools
+%package        libs
+Summary:        Libraries of %{name}
 
-%description libs
+%description    libs
 This package contains the libraries required by %{name}.
 
 %prep
 %setup -q
-
-%patch0 -p0
-%patch1 -p0
-%patch2 -p1
-
-# Patch0 updates autoconf, so rerun this:
-./autogen.sh
+# For %%doc dependency-clean.
+chmod -x scripts/{relocatesymlinks,restoremode,savemode}.sh
+%patch0 -p1
 
 %build
-%configure \
-  --disable-dependency-tracking \
-  --disable-static
-make
+%configure --disable-static --disable-silent-rules
+%make_build
 
 %install
-rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%make_install
 
 %check
-#make check
-
-%clean
-rm -rf %{buildroot}
+make check
 
 %files
-%defattr(-,root,root,-)
-%doc LICENSE scripts/ldd.fake scripts/restoremode.sh scripts/savemode.sh
+%doc scripts/{relocatesymlinks,restoremode,savemode}.sh
+%doc NEWS.md README.md THANKS
+%license COPYING LICENSE
 %{_bindir}/fakechroot
-%{_mandir}/man1/fakechroot.1.gz
+%{_bindir}/env.fakechroot
+%{_bindir}/ldd.fakechroot
+%{_sbindir}/chroot.fakechroot
+%dir %{_sysconfdir}/fakechroot/
+%config(noreplace) %{_sysconfdir}/fakechroot/chroot.env
+%config(noreplace) %{_sysconfdir}/fakechroot/debootstrap.env
+%config(noreplace) %{_sysconfdir}/fakechroot/rinse.env
+%{_mandir}/man1/fakechroot.1*
 
 %files libs
 %dir %{_libdir}/fakechroot
@@ -78,6 +61,9 @@ rm -rf %{buildroot}
 %{_libdir}/fakechroot/libfakechroot.so
 
 %changelog
+* Mon Mar 02 2015 Christopher Meng <rpm@cicku.me> - 2.17.2-1
+- Update to 2.17.2
+
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.9-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
