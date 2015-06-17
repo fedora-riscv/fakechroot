@@ -1,6 +1,6 @@
 Name:           fakechroot
 Version:        2.17.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
 URL:            https://github.com/dex4er/fakechroot
@@ -61,6 +61,9 @@ make check
 %{_libdir}/fakechroot/libfakechroot.so
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.17.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Mon Mar 02 2015 Christopher Meng <rpm@cicku.me> - 2.17.2-1
 - Update to 2.17.2
 
