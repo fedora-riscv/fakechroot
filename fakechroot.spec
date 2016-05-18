@@ -1,12 +1,12 @@
 Name:           fakechroot
-Version:        2.17.2
-Release:        3%{?dist}
+Version:        2.18
+Release:        1%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
 URL:            https://github.com/dex4er/fakechroot
-Source0:        https://github.com/dex4er/fakechroot/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-Patch0:         0001-Patch-to-incorporate-with-new-GLIBC-cleaner-style.patch
-Requires:       fakechroot-libs%{?_isa} = %{version}-%{release}
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 # Required for manpage
 BuildRequires:  /usr/bin/pod2man
 # ldd.fakechroot
@@ -26,10 +26,9 @@ Summary:        Libraries of %{name}
 This package contains the libraries required by %{name}.
 
 %prep
-%setup -q
+%autosetup -p1
 # For %%doc dependency-clean.
 chmod -x scripts/{relocatesymlinks,restoremode,savemode}.sh
-%patch0 -p1
 
 %build
 %configure --disable-static --disable-silent-rules
@@ -37,30 +36,33 @@ chmod -x scripts/{relocatesymlinks,restoremode,savemode}.sh
 
 %install
 %make_install
+# Drop libtool files
+find %{buildroot}%{_libdir} -name '*.la' -delete -print
 
 %check
-make check
+make %{?_smp_mflags} check
 
 %files
 %doc scripts/{relocatesymlinks,restoremode,savemode}.sh
 %doc NEWS.md README.md THANKS
 %license COPYING LICENSE
-%{_bindir}/fakechroot
-%{_bindir}/env.fakechroot
-%{_bindir}/ldd.fakechroot
-%{_sbindir}/chroot.fakechroot
-%dir %{_sysconfdir}/fakechroot/
-%config(noreplace) %{_sysconfdir}/fakechroot/chroot.env
-%config(noreplace) %{_sysconfdir}/fakechroot/debootstrap.env
-%config(noreplace) %{_sysconfdir}/fakechroot/rinse.env
-%{_mandir}/man1/fakechroot.1*
+%{_bindir}/%{name}
+%{_bindir}/env.%{name}
+%{_bindir}/ldd.%{name}
+%{_sbindir}/chroot.%{name}
+%dir %{_sysconfdir}/%{name}/
+%config(noreplace) %{_sysconfdir}/%{name}/chroot.env
+%config(noreplace) %{_sysconfdir}/%{name}/debootstrap.env
+%config(noreplace) %{_sysconfdir}/%{name}/rinse.env
+%{_mandir}/man1/%{name}.1*
 
 %files libs
-%dir %{_libdir}/fakechroot
-%exclude %{_libdir}/fakechroot/libfakechroot.la
-%{_libdir}/fakechroot/libfakechroot.so
+%{_libdir}/%{name}/
 
 %changelog
+* Wed May 18 2016 Igor Gnatenko <ignatenko@redhat.com> - 2.18-1
+- Update to 2.18
+
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.17.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
