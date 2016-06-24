@@ -9,6 +9,7 @@ Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 # Required for manpage
 BuildRequires:  /usr/bin/pod2man
+BuildRequires:  perl-generators
 # ldd.fakechroot
 Requires:       /usr/bin/objdump
 
