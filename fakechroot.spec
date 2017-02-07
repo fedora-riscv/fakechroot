@@ -1,5 +1,5 @@
 Name:           fakechroot
-Version:        2.18
+Version:        2.19
 Release:        1%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
@@ -45,7 +45,7 @@ make %{?_smp_mflags} check
 
 %files
 %doc scripts/{relocatesymlinks,restoremode,savemode}.sh
-%doc NEWS.md README.md THANKS
+%doc NEWS.md README.md THANKS.md
 %license COPYING LICENSE
 %{_bindir}/%{name}
 %{_bindir}/env.%{name}
@@ -61,6 +61,9 @@ make %{?_smp_mflags} check
 %{_libdir}/%{name}/
 
 %changelog
+* Tue Feb 07 2017 Sérgio Basto <sergio@serjux.com> - 2.19-1
+- Update fakechroot to 2.19 (#1396855)
+
 * Wed May 18 2016 Igor Gnatenko <ignatenko@redhat.com> - 2.18-1
 - Update to 2.18
 
