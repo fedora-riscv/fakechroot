@@ -1,6 +1,6 @@
 Name:           fakechroot
 Version:        2.19
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
 URL:            https://github.com/dex4er/fakechroot
@@ -61,6 +61,9 @@ make %{?_smp_mflags} check
 %{_libdir}/%{name}/
 
 %changelog
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Tue Feb 07 2017 Sérgio Basto <sergio@serjux.com> - 2.19-1
 - Update fakechroot to 2.19 (#1396855)
 
