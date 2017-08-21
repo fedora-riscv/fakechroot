@@ -1,12 +1,18 @@
 Name:           fakechroot
 Version:        2.19
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
 URL:            https://github.com/dex4er/fakechroot
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+# https://github.com/dex4er/fakechroot/pull/50
+Patch0:         0001-Add-support-of-LFS-compatible-fts-functions.patch
 
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  libtool
+BuildRequires:  gcc
 # Required for manpage
 BuildRequires:  /usr/bin/pod2man
 BuildRequires:  perl-generators
@@ -32,6 +38,7 @@ This package contains the libraries required by %{name}.
 chmod -x scripts/{relocatesymlinks,restoremode,savemode}.sh
 
 %build
+autoreconf -vfi
 %configure --disable-static --disable-silent-rules
 %make_build
 
@@ -61,6 +68,9 @@ make %{?_smp_mflags} check
 %{_libdir}/%{name}/
 
 %changelog
+* Mon Aug 21 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 2.19-4
+- Add support for LFS
+
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.19-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
