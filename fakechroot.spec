@@ -1,12 +1,10 @@
 Name:           fakechroot
-Version:        2.19
-Release:        8%{?dist}
+Version:        2.20.1
+Release:        1%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
 URL:            https://github.com/dex4er/fakechroot
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
-# https://github.com/dex4er/fakechroot/pull/50
-Patch0:         0001-Add-support-of-LFS-compatible-fts-functions.patch
 
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 BuildRequires:  autoconf
@@ -68,6 +66,10 @@ make %{?_smp_mflags} check
 %{_libdir}/%{name}/
 
 %changelog
+* Fri Oct 18 2019 Sérgio Basto <sergio@serjux.com> - 2.20.1-1
+- Update to 2.20.1 (#1689666)
+- Drop upstreamed patch
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.19-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
