@@ -1,6 +1,6 @@
 Name:           fakechroot
 Version:        2.20.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
 URL:            https://github.com/dex4er/fakechroot
@@ -37,7 +37,11 @@ chmod -x scripts/{relocatesymlinks,restoremode,savemode}.sh
 
 %build
 autoreconf -vfi
-%configure --disable-static --disable-silent-rules
+%if %{__isa_bits} == 64
+%configure --disable-static --disable-silent-rules --with-libpath="%{_libdir}/fakechroot:/usr/lib/fakechroot"
+%else
+%configure --disable-static --disable-silent-rules --with-libpath="%{_libdir}/fakechroot"
+%endif
 %make_build
 
 %install
@@ -46,7 +50,7 @@ autoreconf -vfi
 find %{buildroot}%{_libdir} -name '*.la' -delete -print
 
 %check
-make %{?_smp_mflags} check
+%make_build check
 
 %files
 %doc scripts/{relocatesymlinks,restoremode,savemode}.sh
@@ -66,6 +70,9 @@ make %{?_smp_mflags} check
 %{_libdir}/%{name}/
 
 %changelog
+* Fri Jan 24 2020 Sérgio Basto <sergio@serjux.com> - 2.20.1-2
+- (#1241555) fakechroot isn't multilib
+
 * Fri Oct 18 2019 Sérgio Basto <sergio@serjux.com> - 2.20.1-1
 - Update to 2.20.1 (#1689666)
 - Drop upstreamed patch
