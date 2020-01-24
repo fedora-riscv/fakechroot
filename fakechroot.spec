@@ -37,11 +37,17 @@ chmod -x scripts/{relocatesymlinks,restoremode,savemode}.sh
 
 %build
 autoreconf -vfi
+
+%ifnarch noarch
 %if 0%{__isa_bits} == 64
 %configure --disable-static --disable-silent-rules --with-libpath="%{_libdir}/fakechroot:/usr/lib/fakechroot"
 %else
 %configure --disable-static --disable-silent-rules --with-libpath="%{_libdir}/fakechroot"
 %endif
+%else
+%configure --disable-static --disable-silent-rules --with-libpath="%{_libdir}/fakechroot"
+%endif
+
 %make_build
 
 %install
