@@ -1,6 +1,6 @@
 Name:           fakechroot
 Version:        2.20.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
 URL:            https://github.com/dex4er/fakechroot
@@ -76,6 +76,9 @@ find %{buildroot}%{_libdir} -name '*.la' -delete -print
 %{_libdir}/%{name}/
 
 %changelog
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Fri Jan 24 2020 Sérgio Basto <sergio@serjux.com> - 2.20.1-2
 - (#1241555) fakechroot isn't multilib
 
