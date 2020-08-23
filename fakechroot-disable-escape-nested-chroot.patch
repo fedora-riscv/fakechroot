@@ -1,0 +1,10 @@
+--- fakechroot-2.20.1/test/Makefile.am.orig	2020-08-23 12:28:21.871614223 +0100
++++ fakechroot-2.20.1/test/Makefile.am	2020-08-23 12:28:25.722597158 +0100
+@@ -12,7 +12,6 @@ TESTS = \
+     t/execlp.t \
+     t/execve-elfloader.t \
+     t/execve-null-envp.t \
+-    t/escape-nested-chroot.t \
+     t/fts.t \
+     t/ftw.t \
+     t/host.t \
