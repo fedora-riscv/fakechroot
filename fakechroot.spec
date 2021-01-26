@@ -1,6 +1,6 @@
 Name:           fakechroot
 Version:        2.20.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
 URL:            https://github.com/dex4er/fakechroot
@@ -76,6 +76,9 @@ find %{buildroot}%{_libdir} -name '*.la' -delete -print
 %{_libdir}/%{name}/
 
 %changelog
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Sat Aug 29 2020 Sérgio Basto <sergio@serjux.com> - 2.20.1-7
 - Use upstream fix for t/escape-nested-chroot.t
 
