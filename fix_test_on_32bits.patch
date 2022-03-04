@@ -1,0 +1,21 @@
+removing leading / for some reason cp doesn't like it
+--- fakechroot-2.20.1/test/t/cp.t	2019-03-22 21:02:42.000000000 +0000
++++ fakechroot-2.20.1/test/t/cp.t	2022-03-04 02:07:11.511455404 +0000
+@@ -19,13 +19,13 @@ for chroot in chroot fakechroot; do
+     else
+ 
+         echo 'something' > $testtree/file-$chroot
+-        ln -s /file-$chroot $testtree/symlink-$chroot
++        ln -s file-$chroot $testtree/symlink-$chroot
+ 
+-        t=`$srcdir/$chroot.sh $testtree /bin/sh -c "cp $CP_ARGS /file-$chroot /file2-$chroot; cat /file2-$chroot" 2>&1`
++        t=`$srcdir/$chroot.sh $testtree /bin/sh -c "cp $CP_ARGS file-$chroot file2-$chroot; cat /file2-$chroot" 2>&1`
+         test "$t" = "something" || not
+-        ok "$chroot cp $CP_ARGS /file-$chroot /file2-$chroot:" $t
++        ok "$chroot cp $CP_ARGS file-$chroot file2-$chroot:" $t
+ 
+-        t=`$srcdir/$chroot.sh $testtree /bin/sh -c "cp $CP_ARGS /symlink-$chroot /symlink2-$chroot; cat /symlink2-$chroot" 2>&1`
++        t=`$srcdir/$chroot.sh $testtree /bin/sh -c "cp $CP_ARGS symlink-$chroot symlink2-$chroot; cat /symlink2-$chroot" 2>&1`
+         test "$t" = "something" || not
+         ok "$chroot cp $CP_ARGS /symlink-$chroot /symlink2-$chroot:" $t
+ 

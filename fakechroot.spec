@@ -10,6 +10,8 @@ Patch2:         https://github.com/dex4er/fakechroot/pull/85/commits/534e6d55573
 Patch3:         https://github.com/dex4er/fakechroot/pull/85/commits/75d7e6fa191c11a791faff06a0de86eaa7801d05.patch
 Patch4:         https://github.com/dex4er/fakechroot/pull/85/commits/693a3597ea7fccfb62f357503ff177bd3e3d5a89.patch
 Patch5:         https://github.com/dex4er/fakechroot/pull/86.patch
+Patch6:         fix_test_on_32bits.patch
+
 
 
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
@@ -47,10 +49,10 @@ chmod -x scripts/{relocatesymlinks,restoremode,savemode}.sh
 %build
 autoreconf -vfi
 
-%if "%{_libdir}" == "/usr/lib64"
+%if 0%{?__isa_bits} == 64
 %configure --disable-static --disable-silent-rules --with-libpath="%{_libdir}/fakechroot:/usr/lib/fakechroot"
 %else
-%configure --disable-static --disable-silent-rules --with-libpath="%{_libdir}/fakechroot"
+%configure --disable-static --disable-silent-rules --with-libpath="%{_libdir}/fakechroot:/usr/lib64/fakechroot"
 %endif
 
 %make_build
