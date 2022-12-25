@@ -83,6 +83,7 @@ find %{buildroot}%{_libdir} -name '*.la' -delete -print
 %changelog
 * Sun Dec 25 2022 Sérgio Basto <sergio@serjux.com> - 2.20.1-13
 - PR #104 have more 2 commits
+- Patch to fix test on 32bits is not needed anymore, maybe glibc was fixed (on 32 bits), I don't know
 
 * Sat Oct 29 2022 Sérgio Basto <sergio@serjux.com> - 2.20.1-12
 - All changes to fakechroot we carry in Debian for glibc >= 2.34 #104
