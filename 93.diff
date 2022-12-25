@@ -1,0 +1,51 @@
+diff --git a/.github/workflows/c-cpp.yml b/.github/workflows/c-cpp.yml
+new file mode 100644
+index 00000000..38ec05a1
+--- /dev/null
++++ b/.github/workflows/c-cpp.yml
+@@ -0,0 +1,32 @@
++name: C/C++ CI
++
++on:
++  push:
++    branches: [ fix-dist-check ]
++  pull_request:
++    branches: [ master ]
++
++jobs:
++  build:
++
++    runs-on: ubuntu-latest
++
++    steps:
++    - uses: actions/checkout@v2
++    - name: configure
++      run: |
++        for t in autogen.sh configure
++        do sh "$t"
++        done
++    - name: make
++      run: make
++    - name: make check
++      run: make check
++    - name: make distcheck
++      run: make distcheck
++      continue-on-error: true
++    - name: upload test log
++      uses: actions/upload-artifact@v2.2.3
++      with:
++        name: test-log
++        path: fakechroot-2.20.2/_build/sub/test/test-suite.log
+diff --git a/test/bin/fakechroot b/test/bin/fakechroot
+index 315cb100..122c991c 100755
+--- a/test/bin/fakechroot
++++ b/test/bin/fakechroot
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ 
+ pwd=`dirname $0`
+-abs_top_srcdir=${abs_top_srcdir:-`cd "$pwd/../.." 2>/dev/null && pwd -P`}
++abs_top_srcdir=${abs_top_srcdir:-`cd ".." 2>/dev/null && pwd -P`}
+ 
+ PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+ export PATH
